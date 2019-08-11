@@ -25,6 +25,10 @@ router.route("/deleteUser/:ID").delete(User.deleteUser);
 //Game
 router.route("/getVoices").get(Game.getVoices);
 
+router.route("/getLaps/:ID").get(Game.getLaps);
+
+router.route("/setLaps/:ID").put(Game.setLaps);
+
 router.route("/addGame").post(Game.addGame);
 
 router.route("/updateGame/:ID").put(Game.updateGame);

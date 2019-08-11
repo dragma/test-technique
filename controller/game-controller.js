@@ -13,7 +13,7 @@ exports.getVoices = function(req, res) {
 
 	textToSpeech.listVoices()
 	  .then(voices => {
-		voices.voices.forEach(function(element){
+		voices.voices.forEach(function(element) {
 			languages.push(element['language']);
 		});
 		languages = languages.filter((item, index) => languages.indexOf(item) === index);
@@ -24,12 +24,37 @@ exports.getVoices = function(req, res) {
 	});
 };
 
+exports.getLaps = function(req, res) {
+
+	Game.find({_id:req.params.ID}, function(err, game) {
+		if (err) throw err;
+		var laps;
+		game.forEach(function(element) {
+			laps = element.laps;
+		});
+		res.json(laps);
+	});
+
+}
+
+exports.setLaps = function(req, res) {
+
+	Game.updateOne({_id:req.params.ID}, {
+		$inc: {
+			laps: -1
+		}
+	}, function(err, game) {
+		if (err) throw err;
+		res.json(game);
+	});
+}
+
 exports.addGame = function(req, res) {
 
 	var game = new Game();
 
 	game.laps = req.body.laps;
-	game.sentence = req.body.sentence;
+	game.startSentence = req.body.startSentence;
 
 	game.save(function(err) {
 		if (err) throw err;
@@ -40,12 +65,24 @@ exports.addGame = function(req, res) {
 exports.updateGame = function(req, res) {
 
 	Game.updateOne({_id:req.params.ID}, {
-		sentence:req.body.sentence,
-		laps:req.body.laps
-	}, function(err, game) {
+		laps: req.body.laps,
+		startSentence: req.body.startSentence
+	}, function (err, game) {
 		if (err) throw err;
 		res.json(game);
 	});
+
+	/*Game.updateOne({_id:req.params.ID}, {
+		$set: {
+				1: {
+					sentence: req.body.sentence,
+					note: req.body.note
+				}
+		}
+	}, function(err, game) {
+		if (err) throw err;
+		res.json(game);
+	});*/
 };
 
 exports.deleteGame = function(req, res) {

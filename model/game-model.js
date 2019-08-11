@@ -6,7 +6,7 @@ var Game = mongoose.Schema({
 		default: 1,
 		require: true
 	},
-	sentence: {
+	startSentence: {
 		type: String,
 		default: "",
 		require: true
