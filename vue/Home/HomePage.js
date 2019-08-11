@@ -10,30 +10,37 @@ export default class HomePage extends Component {
 		super();
 		this.state = {
 			play: "Play",
-			number: 1
+			laps: 1,
+			_id: 0
 		};
 		this.newGame = this.newGame.bind(this);
 		this.onPressPlay = this.onPressPlay.bind(this);
+		this.onChangeText = this.onChangeText.bind(this);
 	}
 
 	async newGame() {
-		await axios.post("/addGame", {laps: this.state.number}).then(res => {
+		await axios.post("/addGame", {laps: this.state.laps}).then(res => {
 			console.log(res.data);
+			//this.setState({_id: res.data._id});
 		})
 		.catch(function(err) {	
 			throw err;
 		});
 	}
 
+	onChangeText = (number) => {
+		this.setState({laps: number});
+	}
+
 	onPressPlay = () => {
 		this.newGame();
-		this.props.navigation.navigate('Languages', {navigation: this.props.navigation, number: this.state.number});
+		this.props.navigation.navigate('Languages', {navigation: this.props.navigation, laps: this.state.laps, _id: this.state._id});
 	}
 
   render() {
 	return (
       <View style={styles.container}>
-		<TextInput placeholder="Enter a number of laps" keyboardType={'numeric'} style={styles.textInput}/>
+		<TextInput placeholder="Enter a number of laps" onChangeText={(number) => this.onChangeText} keyboardType={'numeric'} style={styles.textInput}/>
 		<TouchableHighlight onPress={this.onPressPlay} style={styles.play}>
 			<View>
 				<Text style={styles.Text}>{this.state.play}</Text>
