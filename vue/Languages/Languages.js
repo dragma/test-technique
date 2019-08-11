@@ -13,7 +13,6 @@ export default class Languages extends Component {
 			text: "",
 			languages: [],
 			language: ""
-			//navigation: this.props.navigation.state.params.navigation
 		};
 		this.onPressRun = this.onPressRun.bind(this);
 		this.updateLanguage = this.updateLanguage.bind(this);
@@ -21,7 +20,7 @@ export default class Languages extends Component {
 	}
 
 	onPressRun = () => {
-		this.props.navigation.state.params.navigation.navigate('HomePage');
+		this.props.navigation.state.params.navigation.navigate('Game', {navigation: this.props.navigation, _id: this.state._id});
 	}
 
 	updateLanguage = (lang) => {

@@ -10,25 +10,16 @@ export default class Languages extends Component {
 		super();
 		this.state = {
 			next: "Next",
-			laps: 0,
-			previousText: "",
-			currentText: ""
+			laps: 4,
+			previousText: "nendpzpojez",
+			currentText: "lplplfprlfprlfplfrpflrpl"
 		};
 		this.onPressNext = this.onPressNext.bind(this);
-		this.getPreviousText = this.getPreviousText.bind(this);
-		this.getCurrentText = this.getCurrentText.bind(this);
 	}
 	
 	onPressNext = () => {
 		this.setLaps();
-		this.props.navigation.state.params.navigation.navigate('Game');
-	}
-	getPreviousText() {
-		this.setState({previousText:"lololo"});
-	}
-
-	getcurrentText() {
-		this.setState({currentText:"bfubefubre"});
+		this.props.navigation.state.params.navigation.navigate('Game', {navigation: this.props.navigation, _id: this.props._id});
 	}
 
 	async setLaps() {
@@ -65,6 +56,15 @@ export default class Languages extends Component {
 		.catch(function(err) {	
 			throw err;
 		});
+	}
+
+	async getAllText() {
+		await axios.get("/getAllText/" + this.props._id).then(res => {
+			return res
+		})
+		.catch(function(err) {	
+			throw err;
+		});
 	}*/
 
   render() {
@@ -73,6 +73,9 @@ export default class Languages extends Component {
 		return (
 			<ScrollView>
 				<View style={styles.container}>
+				{
+					this.getAllText
+				}
 				</View>
 			</ScrollView>
 		)
@@ -81,14 +84,14 @@ export default class Languages extends Component {
       <ScrollView>
 			<View style={styles.container}>
 			<Text style={styles.text}>
-				{this.getPreviousText}
+				{this.state.previousText}
 			</Text>
 			<Text style={styles.text}>
-				{this.getCurrentText}
+				{this.state.currentText}
 			</Text>
 			<TouchableHighlight onPress={this.onPressNext} style={styles.next}>
 				<View>
-					<Text style={styles.Text}>{this.state.next}</Text>
+					<Text style={styles.text}>{this.state.next}</Text>
 				</View>
 			</TouchableHighlight>
 			</View>

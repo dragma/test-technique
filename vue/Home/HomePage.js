@@ -34,7 +34,7 @@ export default class HomePage extends Component {
 
 	onPressPlay = () => {
 		this.newGame();
-		this.props.navigation.navigate('Languages', {navigation: this.props.navigation, laps: this.state.laps, _id: this.state._id});
+		this.props.navigation.navigate('Languages', {navigation: this.props.navigation, _id: this.state._id});
 	}
 
   render() {

@@ -10,6 +10,16 @@ var Game = mongoose.Schema({
 		type: String,
 		default: "",
 		require: true
+	},
+	text: {
+		type: String,
+		default: "",
+		require: true
+	},
+	voice: {
+		type: String,
+		dafault: "",
+		require: true
 	}
 });
 

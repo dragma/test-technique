@@ -1,5 +1,6 @@
 var Game = require("../model/game-model");
 const TextToSpeechV1 = require('ibm-watson/text-to-speech/v1');
+var fs = require('fs');
 
 const textToSpeech = new TextToSpeechV1({
   iam_apikey: 'V5Avwuye8DfbxDVWwrxzDcBb43YCT1NL4Q6CSOd0G8b3',
@@ -14,7 +15,7 @@ exports.getVoices = function(req, res) {
 	textToSpeech.listVoices()
 	  .then(voices => {
 		voices.voices.forEach(function(element) {
-			languages.push(element['language']);
+			languages.push(element['name']);
 		});
 		languages = languages.filter((item, index) => languages.indexOf(item) === index);
 		res.json(languages)
@@ -23,6 +24,40 @@ exports.getVoices = function(req, res) {
 		console.log('error:', err);
 	});
 };
+
+exports.getNewText = function (req, res) {
+	
+	var paramsSynthese = {};
+	
+	Game.find({_id:req.params.ID}, function(err, game) {
+		paramsSynthese = {};
+		if (err) throw err;
+		game.forEach(function(element) {
+			paramsSynthese = {
+				text: element.text,
+				accept: 'audio/wav',
+				voice: element.voice
+			};
+		});
+	});
+
+	/*textToSpeech.synthesize(paramsSynthese)
+	.then(audio => {
+		audio.pipe(fs.createWriteStream('test.wav'));
+	})
+	.catch(err => {
+		console.log('error:', err);
+	});*/
+}
+
+exports.setVoice = function(req, res) {
+	Game.updateOne({_id:req.params.ID}, {
+		voice: req.body.voice
+	}, function(err, game) {
+		if (err) throw err;
+		res.json(game);
+	});
+}
 
 exports.getLaps = function(req, res) {
 

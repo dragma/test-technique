@@ -1,6 +1,7 @@
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import HomePage from '../Home/HomePage';
 import Languages from '../Languages/Languages';
+import Game from '../Game/Game';
 
 const Navigation = createStackNavigator(
 	{
@@ -11,6 +12,10 @@ const Navigation = createStackNavigator(
 		Languages:
 		{
 			screen: Languages
+		},
+		Game:
+		{
+			screen: Game
 		}
 	},
 	{
