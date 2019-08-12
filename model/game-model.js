@@ -18,8 +18,18 @@ var Game = mongoose.Schema({
 	},
 	voice: {
 		type: String,
-		dafault: "",
+		default: "",
 		require: true
+	},
+	diff: {
+		note: {
+			type: String,
+			default: ""
+		},
+		sentence: {
+			type: String,
+			default: ""
+		}
 	}
 });
 

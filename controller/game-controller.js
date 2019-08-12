@@ -15,23 +15,6 @@ const textToSpeech = new TextToSpeechV1({
   disable_ssl_verification: true,
 });
 
-exports.getVoices = function(req, res) {
-
-	var languages = [];
-
-	textToSpeech.listVoices()
-	  .then(voices => {
-		voices.voices.forEach(function(element) {
-			languages.push(element['name']);
-		});
-		languages = languages.filter((item, index) => languages.indexOf(item) === index);
-		res.json(languages)
-	})
-	.catch(err => {
-		console.log('error:', err);
-	});
-};
-
 exports.setNewText = function (req, res) {
 	
 	var paramsSyntheseTextToSpeech = {
@@ -84,6 +67,23 @@ exports.getNewText = function(req, res) {
 	});
 }
 
+exports.getVoices = function(req, res) {
+
+	var languages = [];
+
+	textToSpeech.listVoices()
+	  .then(voices => {
+		voices.voices.forEach(function(element) {
+			languages.push(element['name']);
+		});
+		languages = languages.filter((item, index) => languages.indexOf(item) === index);
+		res.json(languages)
+	})
+	.catch(err => {
+		console.log('error:', err);
+	});
+};
+
 exports.setVoice = function(req, res) {
 	Game.updateOne({_id:req.params.ID}, {
 		voice: req.body.voice
@@ -134,24 +134,14 @@ exports.addGame = function(req, res) {
 exports.updateGame = function(req, res) {
 
 	Game.updateOne({_id:req.params.ID}, {
-		laps: req.body.laps,
-		startSentence: req.body.startSentence
-	}, function (err, game) {
-		if (err) throw err;
-		res.json(game);
-	});
-
-	/*Game.updateOne({_id:req.params.ID}, {
-		$set: {
-				1: {
-					sentence: req.body.sentence,
-					note: req.body.note
-				}
+		diff: {
+			sentence: req.body.sentence,
+			note: req.body.note
 		}
 	}, function(err, game) {
 		if (err) throw err;
 		res.json(game);
-	});*/
+	});
 };
 
 exports.deleteGame = function(req, res) {
