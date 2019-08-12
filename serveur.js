@@ -23,11 +23,11 @@ router.route("/updateUser/:ID").put(User.updateUser);
 router.route("/deleteUser/:ID").delete(User.deleteUser);
 
 //Game
-router.route("/getVoices").get(Game.getVoices);
-
 router.route("/setNewText/:ID").put(Game.setNewText);
 
 router.route("/getNewText/:ID").get(Game.getNewText);
+
+router.route("/getVoices").get(Game.getVoices);
 
 router.route("/setVoice/:ID").put(Game.setVoice);
 
@@ -38,6 +38,8 @@ router.route("/setLaps/:ID").put(Game.setLaps);
 router.route("/addGame").post(Game.addGame);
 
 router.route("/updateGame/:ID").put(Game.updateGame);
+
+router.route("/setText/:ID").put(Game.setText);
 
 router.route("deleteGame/:ID").delete(Game.deleteGame);
 

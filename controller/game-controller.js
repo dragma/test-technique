@@ -144,6 +144,16 @@ exports.updateGame = function(req, res) {
 	});
 };
 
+exports.setText = function(req, res) {
+
+	Game.updateOne({_id:req.params.ID}, {
+		text: req.body.sentence
+	}, function(err, game) {
+		if (err) throw err;
+		res.json(game);
+	});
+}
+
 exports.deleteGame = function(req, res) {
 
 	Game.remove({_id:req.params.ID}, function(err, game) {
