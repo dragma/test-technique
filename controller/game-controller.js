@@ -144,6 +144,42 @@ exports.updateGame = function(req, res) {
 	});
 };
 
+exports.getPreviousText = function(req, res) {
+
+	Game.find({_id:req.params.ID}, function(err, game) {
+		if (err) throw err;
+		var previousText;
+		game.forEach(function(element) {
+			previousText = element.text;
+		});
+		res.json(previousText);
+	});
+};
+
+exports.getCurrentText = function(req, res) {
+
+	Game.find({_id:req.params.ID}, function(err, game) {
+		if (err) throw err;
+		var currentText;
+		game.forEach(function(element) {
+			currentText = element.diff.sentence;
+		});
+		res.json(currentText);
+	});
+};
+
+exports.getNote = function(req, res) {
+
+	Game.find({_id:req.params.ID}, function(err, game) {
+		if (err) throw err;
+		var note;
+		game.forEach(function(element) {
+			note = element.diff.note;
+		});
+		res.json(note);
+	});
+};
+
 exports.setText = function(req, res) {
 
 	Game.updateOne({_id:req.params.ID}, {
@@ -152,7 +188,7 @@ exports.setText = function(req, res) {
 		if (err) throw err;
 		res.json(game);
 	});
-}
+};
 
 exports.deleteGame = function(req, res) {
 

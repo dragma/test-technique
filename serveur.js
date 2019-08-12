@@ -39,6 +39,12 @@ router.route("/addGame").post(Game.addGame);
 
 router.route("/updateGame/:ID").put(Game.updateGame);
 
+router.route("/getPrevioustext/:ID").get(Game.getPreviousText);
+
+router.route("/getCurrentText/:ID").get(Game.getCurrentText);
+
+router.route("/getNote/:ID").get(Game.getNote);
+
 router.route("/setText/:ID").put(Game.setText);
 
 router.route("deleteGame/:ID").delete(Game.deleteGame);

@@ -12,7 +12,8 @@ export default class Languages extends Component {
 			next: "Next",
 			laps: 4,
 			previousText: "nendpzpojez",
-			currentText: "lplplfprlfprlfplfrpflrpl"
+			currentText: "lplplfprlfprlfplfrpflrpl",
+			note: "ba ouai hein"
 		};
 		this.onPressNext = this.onPressNext.bind(this);
 	}
@@ -39,10 +40,10 @@ export default class Languages extends Component {
 			throw err;
 		});
 	}
-	/*
+	
 	async getPreviousText() {
 		await axios.get("/getPreviousText/" + this.props._id).then(res => {
-			this.setState({previousText: res})
+			this.setState({previousText: res});
 		})
 		.catch(function(err) {	
 			throw err;
@@ -51,21 +52,21 @@ export default class Languages extends Component {
 
 	async getCurrentText() {
 		await axios.get("/getCurrentText/" + this.props._id).then(res => {
-			this.setState({currentText: res})
+			this.setState({currentText: res});
 		})
 		.catch(function(err) {	
 			throw err;
 		});
 	}
 
-	async getAllText() {
-		await axios.get("/getAllText/" + this.props._id).then(res => {
-			return res
+	async getNote() {
+		await axios.get("/getNote/" + this.props._id).then(res => {
+			this.setState({note: res});
 		})
 		.catch(function(err) {	
 			throw err;
 		});
-	}*/
+	}
 
   render() {
 	this.getLaps();
@@ -77,23 +78,28 @@ export default class Languages extends Component {
 					this.getAllText
 				}
 				</View>
+				<TouchableHighlight onPress={this.onPressNext} style={styles.next}>
+					<View>
+						<Text style={styles.text}>{this.state.next}</Text>
+					</View>
+				</TouchableHighlight>
 			</ScrollView>
 		)
 	}
     return (
       <ScrollView>
 			<View style={styles.container}>
-			<Text style={styles.text}>
-				{this.state.previousText}
-			</Text>
-			<Text style={styles.text}>
-				{this.state.currentText}
-			</Text>
-			<TouchableHighlight onPress={this.onPressNext} style={styles.next}>
-				<View>
-					<Text style={styles.text}>{this.state.next}</Text>
-				</View>
-			</TouchableHighlight>
+				<Text style={styles.text}>
+					{this.state.previousText}
+				</Text>
+				<Text style={styles.text}>
+					{this.state.currentText}
+				</Text>
+				<TouchableHighlight onPress={this.onPressNext} style={styles.next}>
+					<View>
+						<Text style={styles.text}>{this.state.next}</Text>
+					</View>
+				</TouchableHighlight>
 			</View>
 		</ScrollView>
     );
