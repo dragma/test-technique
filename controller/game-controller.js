@@ -1,6 +1,13 @@
 var Game = require("../model/game-model");
 const TextToSpeechV1 = require('ibm-watson/text-to-speech/v1');
+const SpeechToTextV1 = require('ibm-watson/speech-to-text/v1');
 var fs = require('fs');
+
+const speechToText = new SpeechToTextV1({
+  iam_apikey: '299x-3QplpAxpSWyw6Q9Cyuhnt5jp83767LThrBkyzOK',
+  url: 'https://gateway-lon.watsonplatform.net/speech-to-text/api',
+  disable_ssl_verification: true,
+});
 
 const textToSpeech = new TextToSpeechV1({
   iam_apikey: 'V5Avwuye8DfbxDVWwrxzDcBb43YCT1NL4Q6CSOd0G8b3',
@@ -25,29 +32,56 @@ exports.getVoices = function(req, res) {
 	});
 };
 
-exports.getNewText = function (req, res) {
+exports.setNewText = function (req, res) {
 	
-	var paramsSynthese = {};
+	var paramsSyntheseTextToSpeech = {
+		text:"",
+		accept: "",
+		voice: ""
+	};
 	
 	Game.find({_id:req.params.ID}, function(err, game) {
-		paramsSynthese = {};
 		if (err) throw err;
 		game.forEach(function(element) {
-			paramsSynthese = {
-				text: element.text,
-				accept: 'audio/wav',
-				voice: element.voice
-			};
+			paramsSyntheseTextToSpeech.text = element.text;
+			paramsSyntheseTextToSpeech.accept = "audio/wav";
+			paramsSyntheseTextToSpeech.voice = element.voice;
 		});
+	}).then(function(res) {
+		textToSpeech.synthesize(paramsSyntheseTextToSpeech)
+		.then(function (audio) {
+			audio.pipe(fs.createWriteStream('./test-technique-audio.wav'));
+		})
+		.catch(function(err) {
+			console.log('error:', err);
+		});
+	}).then(function() {
+		res.json("OK");
 	});
+}
 
-	/*textToSpeech.synthesize(paramsSynthese)
-	.then(audio => {
-		audio.pipe(fs.createWriteStream('test.wav'));
+exports.getNewText = function(req, res) {
+
+	var paramsSyntheseSpeechToText = {
+		audio: "",
+		content_type: "audio/wav",
+		model: ""
+	};
+	
+	var newText = "";
+
+	paramsSyntheseSpeechToText.audio = fs.createReadStream('./test-technique-audio.wav');
+	paramsSyntheseSpeechToText.model = "es-ES_BroadbandModel";
+
+	speechToText.recognize(paramsSyntheseSpeechToText)
+	.then(function(speechRecognition) {
+		newText = speechRecognition.results[0].alternatives[0].transcript;
 	})
-	.catch(err => {
+	.catch(function(err) {
 		console.log('error:', err);
-	});*/
+	}).then(function() {
+		res.json(newText);
+	});
 }
 
 exports.setVoice = function(req, res) {

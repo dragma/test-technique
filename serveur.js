@@ -25,6 +25,8 @@ router.route("/deleteUser/:ID").delete(User.deleteUser);
 //Game
 router.route("/getVoices").get(Game.getVoices);
 
+router.route("/setNewText/:ID").put(Game.setNewText);
+
 router.route("/getNewText/:ID").get(Game.getNewText);
 
 router.route("/setVoice/:ID").put(Game.setVoice);
