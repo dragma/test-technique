@@ -2,6 +2,8 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var app = express();
 var mongoose = require("mongoose");
+var ip = require('ip');
+
 var router = express.Router();
 
 var User = require("./controller/user-controller");
@@ -50,4 +52,4 @@ router.route("/setText/:ID").put(Game.setText);
 router.route("deleteGame/:ID").delete(Game.deleteGame);
 
 
-app.listen(4000);
+app.listen(4000, () => console.log(`Server started. Pleas start app with 'SERVER_HOST=http://${ip.address()} yarn start'.`));
