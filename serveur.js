@@ -14,9 +14,10 @@ var Game = require("./controller/game-controller");
 mongoose.connect('mongodb://localhost:27017/boucheAOreille', {useNewUrlParser: true});
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(morgan('dev'));
+
 app.use("/", router);
 
-app.use(morgan('dev'));
 
 //User
 router.route("/user/:ID").get(User.getUser);
