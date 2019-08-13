@@ -3,6 +3,7 @@ var bodyParser = require("body-parser");
 var app = express();
 var mongoose = require("mongoose");
 var ip = require('ip');
+var morgan = require('morgan');
 
 var router = express.Router();
 
@@ -14,6 +15,8 @@ mongoose.connect('mongodb://localhost:27017/boucheAOreille', {useNewUrlParser: t
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/", router);
+
+app.use(morgan('dev'));
 
 //User
 router.route("/user/:ID").get(User.getUser);
@@ -52,4 +55,4 @@ router.route("/setText/:ID").put(Game.setText);
 router.route("deleteGame/:ID").delete(Game.deleteGame);
 
 
-app.listen(4000, () => console.log(`Server started. Pleas start app with 'SERVER_HOST=http://${ip.address()} yarn start'.`));
+app.listen(4000, () => console.log(`Server started. Pleas start app with 'SERVER_HOST=http://${ip.address()} SERVER_PORT=4000 yarn start'.`));
