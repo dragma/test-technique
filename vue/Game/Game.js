@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, ScrollView, View, TouchableHighlight, TextInput, Picker} from 'react-native';
 import axios from 'axios';
 
-axios.defaults.baseURL = "http://10.0.2.2:4000";
+import config from '../config';
+
+axios.defaults.baseURL = config.SERVER_URL;
 
 export default class Languages extends Component {
 
